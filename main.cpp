@@ -8,14 +8,15 @@
 /*Основные команды для гнуплота
  set logscale x 5
 
-set xlabel "amount of elemenrs"
+set xlabel "Количество элементов в массиве"
 
-set ylabel "Time(C.U.)
+set ylabel "Время(Условные единицы)"
 
-set title "Graphics of sorts"
+set title "Графики сортировок (обычный масштаб)"
 
-plot "test.dat" u 1:2 lt 32  w lp title "Bubble", "test.dat" u 1:3 lt 26  w lp title "Insertion", "test.dat" u 1:4 lt 31  w lp title "Selection", "test.dat" u 1:5 lt 4  w lp title "Merge", "te
-st.dat" u 1:6 w l title "Quick","test.dat" u 1:7 lt 19 w lp  title "Gnom", "test.dat" u 1:8 lt 19  w lp title "Heap
+plot "test.dat" u 1:2 lt 32  w lp title "Bubble", "test.dat" u 1:3 lt 26  w lp title "Insertion", "test.dat" u 1:4 lt 31  w lp title "Selection", "test.dat" u 1:5 w l title "Merge", "test.dat" u 1:6 w l title "Quick","test.dat" u 1:7 lt 19 w lp  title "Gnom", "test.dat" u 1:8 w l title "Heap"
+
+
 */
 using namespace std;
 void sort_Bubble(int* arr, int _size);
@@ -45,104 +46,107 @@ int main(int argc, char *argv[])
     long int time5=0;
     long int time6=0;
     long int time7=0;
-    bool count1=true, count2=true, count3=true, count4=true, count5=true, count6=true, count7=true; //они нужны если мы упираемся во время сортировки
+
 
     FILE* f1;
-    f1=fopen("test1.dat","w");
+    f1=fopen("test.dat","w");
     srand(time(NULL));
 
     int *array;
 
-    for (int size = 1000; size < 150000; size+=10000) {
+    for (int size = 0; size < 1001000; size+=1000) {
         array = new int [size];
 
         randomFill(array, size);
+        fprintf(f1,"%d\t",size);
 
-  //      if(time1>=5500 && count1){
-  //          time1=0;
-  //          count1=false;
-  //      }
-   //     if (time1<5500 && count1){                      //Bubble
+        if(time1>=5500 ){
+            fprintf(f1,"%0\t");
+
+        }
+        if (time1<5500 ){                      //Bubble
             time1 = GetTickCount64();
             sort_Bubble(array, size);
             time1 = GetTickCount64() - time1;
+            fprintf(f1,"%d\t",time1);
+        }
 
- //       }
+        if(time2>=5500){
+           fprintf(f1,"%0\t");
 
-//        if(time2>=5500){
- //           time2=0;
- //           count2=false;
-  //      }
- //       if (time2 <5500 && count2){                //Insertion
+        }
+        if (time2 <5500 ){                //Insertion
             randomFill(array, size);
             time2 = GetTickCount64();
             sort_Insertion(array, size);
             time2 = GetTickCount64() - time2;
+            fprintf(f1,"%d\t",time2);
+        }
 
-  //      }
+       if(time3>=5500 ){
+            fprintf(f1,"%0\t");
 
- //       if(time3>=5500 && count3){
- //           time3=0;
-  //          count3=false;
-  //      }
- //       if (time3 <5500 && count3){                     // Selection
+        }
+        if (time3 <5500 ){                     // Selection
             randomFill(array, size);
              time3 = GetTickCount64();
             sort_Selection(array, size);
             time3 = GetTickCount64() - time3;
+            fprintf(f1,"%d\t",time3);
+        }
 
- //       }
+        if(time4>=5500 ){
+            time4=' ';
 
-  //      if(time4>=5500 && count4){
-   //         time4=0;
-   //         count1=false;
-   //     }
-   //     if (time4 <5500 && count4){                        //Merge
+        }
+        if (time4 <5500 ){                        //Merge
             randomFill(array, size);
              time4 = GetTickCount64();
             sort_Merge(array, size);
             time4 = GetTickCount64() - time4;
+            fprintf(f1,"%d\t",time4);
+       }
 
-  //      }
+        if(time5>=5500 ){
+            fprintf(f1,"%0\t");
 
-  //      if(time5>=5500 && count5){
-  //          time5=0;
-  //          count5=false;
-   //     }
-   //     if (time5 <5500 && count5){                           //Quick
+        }
+        if (time5 <5500 ){                           //Quick
             randomFill(array, size);
             time5= GetTickCount64();
             sort_Quick(array,size);
             time5 = GetTickCount64() - time5;
+            fprintf(f1,"%d\t",time5);
+        }
 
-   //     }
 
+        if(time6>=5500 ){
+           fprintf(f1,"%0\t");
 
-   //     if(time6>=5500 && count6){
-   //         time6=0;
-   //         count6=false;
-   //     }
-   //     if(time6<5500 && count6){
+        }
+        if(time6<5500 ){
             randomFill(array, size);                              //Gnom
             time6= GetTickCount64();
             sort_Gnom(array,size);
             time6 = GetTickCount64() - time6;
-   //     }
+            fprintf(f1,"%d\t",time6);
+        }
 
 
-     //   if(time7>=5500 && count7){
-     //       time7=0;
-     //       count7=false;
-     //   }
-   //     if (time7<5500 && count7){
+        if(time7>=5500 ){
+            fprintf(f1,"%0\n");
+
+        }
+        if (time7<5500 ){
             randomFill(array, size);                              //Heap(Pyramid)
             time7= GetTickCount64();
             sort_Heap(array,size);
             time7 = GetTickCount64() - time7;
-    //    }
+            fprintf(f1,"%d\n",time7);
+       }
 
 
-        fprintf(f1,"%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",size,time1,time2,time3,time4,time5,time6,time7);
+
         cout<<size<<endl;
         delete [] array;
 
